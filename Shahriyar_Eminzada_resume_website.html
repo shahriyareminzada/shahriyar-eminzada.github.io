@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shahriyar Eminzada — Chemical Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink-blue:#0f2438;
+  --ink-blue-deep:#0a1a29;
+  --line:#7fb8c4;
+  --line-dim:#3d5c68;
+  --paper:#ede7d6;
+  --paper-dim:#dcd5c0;
+  --hazard:#e2a33b;
+  --steel:#9fb2ae;
+  --ink:#0a1620;
+  --good:#5fae94;
+  --radius:2px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink-blue);
+  color:var(--paper);
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  background-image:
+    linear-gradient(var(--line-dim) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-dim) 1px, transparent 1px);
+  background-size:44px 44px;
+  background-attachment:fixed;
+  background-color:var(--ink-blue);
+  position:relative;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:radial-gradient(ellipse at 20% 0%, rgba(15,36,56,0) 0%, var(--ink-blue-deep) 78%);
+  pointer-events:none;
+  z-index:0;
+}
+::selection{background:var(--hazard);color:var(--ink);}
+a{color:inherit;}
+:focus-visible{outline:2px solid var(--hazard);outline-offset:3px;}
+
+.mono{font-family:'IBM Plex Mono',monospace;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--hazard);
+}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 28px;
+  background:rgba(10,26,41,.82);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line-dim);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.08em;
+}
+.topbar .tag{color:var(--line);text-transform:uppercase;}
+.topbar .links{display:flex;gap:20px;}
+.topbar .links a{text-decoration:none;color:var(--steel);transition:color .2s;text-transform:uppercase;}
+.topbar .links a:hover{color:var(--hazard);}
+
+/* ============ LAYOUT / PIPE RAIL ============ */
+.wrap{
+  position:relative;z-index:1;
+  max-width:920px;
+  margin:0 auto;
+  padding:0 28px;
+}
+.rail-col{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:0 22px;
+}
+.rail{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+.rail::before{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;left:50%;
+  width:3px;
+  transform:translateX(-50%);
+  background:repeating-linear-gradient(
+    to bottom,
+    var(--line) 0 6px,
+    transparent 6px 14px
+  );
+  background-size:3px 28px;
+  animation:flow 1.1s linear infinite;
+  opacity:.55;
+}
+@keyframes flow{
+  to{background-position:0 -28px;}
+}
+.node{
+  position:sticky;
+  top:120px;
+  width:15px;height:15px;
+  border-radius:50%;
+  background:var(--ink-blue);
+  border:2px solid var(--line-dim);
+  transition:border-color .4s, box-shadow .4s, background .4s;
+  z-index:2;
+}
+.unit.is-active .node{
+  border-color:var(--hazard);
+  background:var(--hazard);
+  box-shadow:0 0 0 5px rgba(226,163,59,.18);
+}
+
+/* ============ HERO / TITLE BLOCK ============ */
+.hero{
+  position:relative;z-index:1;
+  max-width:920px;
+  margin:0 auto;
+  padding:150px 28px 70px;
+}
+.hero .eyebrow{margin-bottom:18px;}
+h1.name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:clamp(2.4rem,6.4vw,4.6rem);
+  line-height:1.02;
+  letter-spacing:-.01em;
+  color:var(--paper);
+}
+.hero .role{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1rem,2.4vw,1.3rem);
+  color:var(--line);
+  margin-top:14px;
+  font-weight:500;
+}
+.hero .lede{
+  max-width:56ch;
+  margin-top:22px;
+  color:var(--steel);
+  font-size:1rem;
+}
+.hero-cta{
+  margin-top:32px;
+  display:flex;gap:14px;flex-wrap:wrap;
+}
+.btn{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  text-decoration:none;
+  padding:12px 18px;
+  border-radius:var(--radius);
+  border:1px solid var(--line-dim);
+  color:var(--paper);
+  transition:all .2s;
+  display:inline-block;
+}
+.btn:hover{border-color:var(--hazard);color:var(--hazard);}
+.btn.primary{background:var(--hazard);border-color:var(--hazard);color:var(--ink);font-weight:600;}
+.btn.primary:hover{background:#f0b358;color:var(--ink);}
+
+/* title block grid, like a real drawing stamp */
+.titleblock{
+  margin-top:56px;
+  border:1px solid var(--line-dim);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.titleblock .cell{
+  padding:12px 16px;
+  border-right:1px solid var(--line-dim);
+  border-top:1px solid var(--line-dim);
+}
+.titleblock .cell:nth-child(4n){border-right:none;}
+.titleblock .cell:nth-child(-n+4){border-top:none;}
+.titleblock .cell .k{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.64rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--line);
+  display:block;
+  margin-bottom:5px;
+}
+.titleblock .cell .v{
+  font-size:.86rem;
+  color:var(--paper);
+  word-break:break-word;
+}
+
+/* ============ UNITS (sections) ============ */
+main{position:relative;z-index:1;}
+.unit{
+  padding:46px 0 46px 22px;
+}
+.unit-inner{padding-top:8px;}
+.tag-row{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-bottom:6px;
+}
+.tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.05em;
+  color:var(--hazard);
+  border:1px solid var(--hazard);
+  padding:2px 8px;
+  border-radius:var(--radius);
+}
+.unit-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.7rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--steel);
+}
+h2.unit-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:clamp(1.35rem,3vw,1.8rem);
+  color:var(--paper);
+  margin-top:6px;
+}
+.unit-meta{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  color:var(--line);
+  margin-top:6px;
+}
+.unit-body{
+  margin-top:16px;
+  color:var(--steel);
+  max-width:64ch;
+}
+.unit-body p{margin-bottom:10px;}
+ul.stream{
+  margin-top:14px;
+  list-style:none;
+}
+ul.stream li{
+  position:relative;
+  padding-left:20px;
+  margin-bottom:9px;
+  color:var(--steel);
+  font-size:.96rem;
+  max-width:62ch;
+}
+ul.stream li::before{
+  content:"→";
+  position:absolute;left:0;top:0;
+  color:var(--hazard);
+  font-family:'IBM Plex Mono',monospace;
+}
+
+/* chip clusters (education modules, skills) */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.chip{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;
+  padding:6px 10px;
+  border:1px solid var(--line-dim);
+  border-radius:var(--radius);
+  color:var(--paper);
+  background:rgba(127,184,196,.05);
+}
+
+/* two-panel reactor cards for experience */
+.reactor-grid{display:grid;gap:22px;}
+.card{
+  border:1px solid var(--line-dim);
+  border-left:3px solid var(--line-dim);
+  padding:20px 22px;
+  background:rgba(237,231,214,.02);
+  transition:border-color .3s, background .3s;
+}
+.card:hover{border-left-color:var(--hazard);background:rgba(237,231,214,.045);}
+
+/* skills panel */
+.panel-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-top:18px;
+}
+.panel-item{
+  border:1px solid var(--line-dim);
+  padding:16px 18px;
+}
+.panel-item .k{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--hazard);
+  display:block;
+  margin-bottom:8px;
+}
+.panel-item .v{font-size:.9rem;color:var(--paper);}
+
+/* gauges */
+.gauge-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+.gauge-card{
+  border:1px solid var(--line-dim);
+  padding:20px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.gauge-card svg{flex-shrink:0;}
+.gauge-txt h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.98rem;
+  color:var(--paper);
+  font-weight:600;
+  margin-bottom:6px;
+}
+.gauge-txt p{
+  font-size:.82rem;
+  color:var(--steel);
+}
+.gauge-needle{transform-origin:60px 60px;transition:transform 1.2s cubic-bezier(.2,.9,.25,1);}
+
+/* languages flow meters */
+.meter{margin-top:16px;}
+.meter-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.meter-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  width:110px;
+  flex-shrink:0;
+  color:var(--paper);
+}
+.meter-track{
+  flex:1;
+  height:10px;
+  border:1px solid var(--line-dim);
+  position:relative;
+  overflow:hidden;
+}
+.meter-fill{
+  height:100%;
+  background:repeating-linear-gradient(45deg, var(--good) 0 6px, #4a9078 6px 12px);
+  width:0;
+  transition:width 1.4s cubic-bezier(.2,.9,.25,1);
+}
+.meter-pct{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;
+  color:var(--steel);
+  width:64px;
+  text-align:right;
+}
+
+/* footer nameplate */
+footer{
+  position:relative;z-index:1;
+  max-width:920px;margin:0 auto;
+  padding:60px 28px 90px;
+}
+.nameplate{
+  border:1px solid var(--line-dim);
+  padding:30px;
+  text-align:center;
+}
+.nameplate h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.3rem;
+  color:var(--paper);
+  margin-bottom:6px;
+}
+.nameplate .role{color:var(--line);font-size:.85rem;margin-bottom:20px;font-family:'IBM Plex Mono',monospace;}
+.nameplate .contacts{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;}
+.nameplate .contacts a{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  text-decoration:none;
+  color:var(--steel);
+  border-bottom:1px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.nameplate .contacts a:hover{color:var(--hazard);border-color:var(--hazard);}
+.foot-note{
+  text-align:center;
+  margin-top:24px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.68rem;
+  letter-spacing:.06em;
+  color:var(--line-dim);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:760px){
+  .rail-col{grid-template-columns:20px 1fr;gap:0 14px;}
+  .node{width:11px;height:11px;top:90px;}
+  .titleblock{grid-template-columns:repeat(2,1fr);}
+  .titleblock .cell:nth-child(4n){border-right:1px solid var(--line-dim);}
+  .titleblock .cell:nth-child(2n){border-right:none;}
+  .titleblock .cell:nth-child(-n+2){border-top:none;}
+  .titleblock .cell:nth-child(3),.titleblock .cell:nth-child(4){border-top:1px solid var(--line-dim);}
+  .hero{padding-top:130px;}
+  .gauge-card{flex-direction:column;align-items:center;text-align:center;}
+}
+@media (max-width:480px){
+  .topbar{padding:12px 16px;font-size:.62rem;}
+  .topbar .links{gap:12px;}
+  .hero,.wrap,footer{padding-left:16px;padding-right:16px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rail::before{animation:none;}
+  .meter-fill,.gauge-needle{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="tag">SHE // Process &amp; Plant Systems</span>
+  <div class="links">
+    <a href="mailto:shahriyareminzada@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/shahriyar-eminzada-225a10250" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="eyebrow">Curriculum Vitae — Rev. 2026</div>
+  <h1 class="name">Shahriyar<br>Eminzada</h1>
+  <div class="role">Chemical Engineering Student — Process &amp; Plant Systems</div>
+  <p class="lede">BEng Chemical Engineering candidate at the University of Edinburgh, moving between lab bench and plant floor. Hands-on with process control, instrumentation and industrial automation — fluent in Python, SolidWorks and UniSim process simulation.</p>
+  <div class="hero-cta">
+    <a class="btn primary" href="mailto:shahriyareminzada@gmail.com">Email Shahriyar</a>
+    <a class="btn" href="https://linkedin.com/in/shahriyar-eminzada-225a10250" target="_blank" rel="noopener">View LinkedIn</a>
+    <a class="btn" href="#F-801">Skip to contact ↓</a>
+  </div>
+
+  <div class="titleblock">
+    <div class="cell"><span class="k">Base</span><span class="v">Edinburgh, UK</span></div>
+    <div class="cell"><span class="k">Mobile</span><span class="v">+994 55 434 33 96</span></div>
+    <div class="cell"><span class="k">WhatsApp</span><span class="v">+44 7823 957181</span></div>
+    <div class="cell"><span class="k">Languages</span><span class="v">AZ · EN · TR</span></div>
+    <div class="cell"><span class="k">Programme</span><span class="v">BEng Chem. Eng.</span></div>
+    <div class="cell"><span class="k">Institution</span><span class="v">Univ. of Edinburgh</span></div>
+    <div class="cell"><span class="k">Class</span><span class="v">Expected First</span></div>
+    <div class="cell"><span class="k">Graduating</span><span class="v">2028</span></div>
+  </div>
+</header>
+
+<main>
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="V-101" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">V-101</span><span class="unit-label">Feed / Education</span></div>
+      <h2 class="unit-title">University of Edinburgh</h2>
+      <div class="unit-meta">BEng Chemical Engineering, Expected First Class Honours — Sep 2024 – Jun 2028</div>
+      <div class="unit-body"><p>Core coursework spans plant engineering, thermodynamics, separations and design — the full pipeline from reaction to unit operations.</p></div>
+      <div class="chips">
+        <span class="chip">Process Plant Engineering 2</span>
+        <span class="chip">Materials 2</span>
+        <span class="chip">Fluid Mechanics 2</span>
+        <span class="chip">Chem. Eng. Thermodynamics 2</span>
+        <span class="chip">Separation Processes 2</span>
+        <span class="chip">Environmental Eng. &amp; Sustainability 2</span>
+        <span class="chip">Chem. Eng. Design 2</span>
+        <span class="chip">Programming for Engineers</span>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="R-201" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">R-201</span><span class="unit-label">Reactor / Experience</span></div>
+      <h2 class="unit-title">Process Engineering Intern</h2>
+      <div class="unit-meta">Azersulfate LLC — Sumgait, Azerbaijan · Jun – Jul 2026</div>
+      <ul class="stream">
+        <li>Monitored process parameters, production equipment and operational performance across a large-scale chemical manufacturing facility.</li>
+        <li>Gained hands-on exposure to process control systems, instrumentation and industrial automation.</li>
+        <li>Supported production and quality control activities under process engineering supervision.</li>
+        <li>Built working knowledge of industrial safety procedures and equipment operation.</li>
+      </ul>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="R-202" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">R-202</span><span class="unit-label">Reactor / Experience</span></div>
+      <h2 class="unit-title">Chemical Engineering Intern</h2>
+      <div class="unit-meta">Heydar Aliyev Oil Refinery — SOCAR Downstream · Baku, Azerbaijan · Jun – Jul 2024</div>
+      <ul class="stream">
+        <li>Observed physical, chemical and biological wastewater treatment across an industrial facility.</li>
+        <li>Analysed water quality, sludge separation and treatment performance to assess operational efficiency.</li>
+        <li>Developed a practical grounding in industrial safety and chemical treatment methods.</li>
+      </ul>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="C-301" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">C-301</span><span class="unit-label">Separation / Research</span></div>
+      <h2 class="unit-title">Biofuel Production from Waste Cooking Oil</h2>
+      <div class="unit-meta">Two-Step Esterification Reaction · Baku Higher Oil School Conference Proceedings, Aug 2024 · ISBN 978-9952-8513-0-4 · pp. 89–93</div>
+      <ul class="stream">
+        <li>Designed and tested a two-step esterification process for biodiesel under varying reaction conditions.</li>
+        <li>Applied ultrasound pretreatment, lifting reaction efficiency to 97.4%.</li>
+        <li>Ran experimental analysis of viscosity and reaction kinetics to evaluate process performance.</li>
+        <li>Published the methodology, results and conclusions, then presented at a national engineering conference.</li>
+      </ul>
+      <div style="margin-top:16px;">
+        <a class="btn" href="https://bhos.edu.az/kcfinder/upload/files/BHOS_Conference_Thesis_2024_17x24sm_for_web.pdf" target="_blank" rel="noopener">Read the paper ↗</a>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="X-401" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">X-401</span><span class="unit-label">Cross-Feed / Development</span></div>
+      <h2 class="unit-title">AI for Novel Materials — Global Summer School</h2>
+      <div class="unit-meta">Huazhong University of Science and Technology (HUST) · Wuhan, China · 30 Jun – 16 Jul 2026 · Scholarship Recipient</div>
+      <ul class="stream">
+        <li>Selected for a competitive scholarship programme on AI, novel materials and emerging engineering technologies.</li>
+        <li>Worked in the lab and in technical discussion across an interdisciplinary engineering environment.</li>
+        <li>Collaborated with students from a wide range of academic backgrounds on technical and research activities.</li>
+      </ul>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="P-601" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">P-601</span><span class="unit-label">Instrumentation Panel / Skills</span></div>
+      <h2 class="unit-title">Technical Skills</h2>
+      <div class="panel-grid">
+        <div class="panel-item"><span class="k">Programming</span><span class="v">Python</span></div>
+        <div class="panel-item"><span class="k">CAD &amp; Simulation</span><span class="v">SolidWorks, UniSim Design R500</span></div>
+        <div class="panel-item"><span class="k">Documentation</span><span class="v">Excel, Word, Google Workspace</span></div>
+        <div class="panel-item"><span class="k">Plant &amp; Process</span><span class="v">Process control, instrumentation, industrial automation, laboratory practice</span></div>
+        <div class="panel-item"><span class="k">Engineering Method</span><span class="v">Technical problem solving, process analysis, equipment monitoring</span></div>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="I-501" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">I-501</span><span class="unit-label">Indicators / Achievements</span></div>
+      <h2 class="unit-title">Achievements</h2>
+      <div class="gauge-grid">
+
+        <div class="gauge-card">
+          <svg width="72" height="44" viewBox="0 0 120 70">
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#3d5c68" stroke-width="8"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#e2a33b" stroke-width="8" stroke-dasharray="157" stroke-dashoffset="0" data-fill="0"/>
+            <line class="gauge-needle" x1="60" y1="60" x2="60" y2="18" stroke="#ede7d6" stroke-width="3" data-rotate="-82"/>
+            <circle cx="60" cy="60" r="5" fill="#ede7d6"/>
+          </svg>
+          <div class="gauge-txt">
+            <h3>Published Thesis</h3>
+            <p>5th Int'l Student Scientific Conference, "Towards Sustainable Chemistry &amp; Chemical Engineering" (2024) — 1 of 111 selected submissions.</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <svg width="72" height="44" viewBox="0 0 120 70">
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#3d5c68" stroke-width="8"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#e2a33b" stroke-width="8"/>
+            <line class="gauge-needle" x1="60" y1="60" x2="60" y2="18" stroke="#ede7d6" stroke-width="3" data-rotate="-86"/>
+            <circle cx="60" cy="60" r="5" fill="#ede7d6"/>
+          </svg>
+          <div class="gauge-txt">
+            <h3>National Chemistry Olympiad</h3>
+            <p>Silver medals (2020, 2022), Bronze (2021) — among 20 Silver and 30 Bronze medalists from 34,000+ nationwide participants.</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <svg width="72" height="44" viewBox="0 0 120 70">
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#3d5c68" stroke-width="8"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#e2a33b" stroke-width="8"/>
+            <line class="gauge-needle" x1="60" y1="60" x2="60" y2="18" stroke="#ede7d6" stroke-width="3" data-rotate="-6"/>
+            <circle cx="60" cy="60" r="5" fill="#ede7d6"/>
+          </svg>
+          <div class="gauge-txt">
+            <h3>Azerbaijan State Scholarship</h3>
+            <p>Selected as one of 373 awardees from 800+ applicants nationwide (2022).</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <svg width="72" height="44" viewBox="0 0 120 70">
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#3d5c68" stroke-width="8"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#e2a33b" stroke-width="8"/>
+            <line class="gauge-needle" x1="60" y1="60" x2="60" y2="18" stroke="#ede7d6" stroke-width="3" data-rotate="-88"/>
+            <circle cx="60" cy="60" r="5" fill="#ede7d6"/>
+          </svg>
+          <div class="gauge-txt">
+            <h3>Gold Medal, Academic Excellence</h3>
+            <p>2022 — one of 136 recipients among roughly 110,000 nationwide graduates.</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <svg width="72" height="44" viewBox="0 0 120 70">
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#3d5c68" stroke-width="8"/>
+            <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#5fae94" stroke-width="8"/>
+            <line class="gauge-needle" x1="60" y1="60" x2="60" y2="18" stroke="#ede7d6" stroke-width="3" data-rotate="80"/>
+            <circle cx="60" cy="60" r="5" fill="#ede7d6"/>
+          </svg>
+          <div class="gauge-txt">
+            <h3>Aspire Leaders Program</h3>
+            <p>Completed the 2025 cohort — a competitive global leadership programme by the Aspire Institute, covering leadership, community impact and cross-cultural collaboration.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="M-701" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">M-701</span><span class="unit-label">Drive / Leadership</span></div>
+      <h2 class="unit-title">Vice President, Azerbaijan Society</h2>
+      <div class="unit-meta">Edinburgh, UK · Sep 2025 – Aug 2026</div>
+      <ul class="stream">
+        <li>Coordinated society activities, supporting student engagement across the university community.</li>
+        <li>Led recruitment and worked with department heads to improve organisational structure and coordination.</li>
+        <li>Organised three major university events, including a Novruz celebration for 100+ attendees.</li>
+        <li>Secured over £1,200 in sponsorship and funding through external partnerships.</li>
+      </ul>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="wrap rail-col">
+  <div class="rail"><div class="node"></div></div>
+  <div class="unit-outer">
+  <section class="unit" id="F-801" data-unit>
+    <div class="unit-inner">
+      <div class="tag-row"><span class="tag">F-801</span><span class="unit-label">Flow Meters / Languages</span></div>
+      <h2 class="unit-title">Languages</h2>
+      <div class="meter">
+        <div class="meter-row">
+          <span class="meter-label">Azerbaijani</span>
+          <div class="meter-track"><div class="meter-fill" data-pct="100"></div></div>
+          <span class="meter-pct">Native</span>
+        </div>
+        <div class="meter-row">
+          <span class="meter-label">English</span>
+          <div class="meter-track"><div class="meter-fill" data-pct="92"></div></div>
+          <span class="meter-pct">Fluent</span>
+        </div>
+        <div class="meter-row">
+          <span class="meter-label">Turkish</span>
+          <div class="meter-track"><div class="meter-fill" data-pct="92"></div></div>
+          <span class="meter-pct">Fluent</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="nameplate">
+    <h3>Shahriyar Eminzada</h3>
+    <div class="role">Chemical Engineering — Process &amp; Plant Systems</div>
+    <div class="contacts">
+      <a href="mailto:shahriyareminzada@gmail.com">shahriyareminzada@gmail.com</a>
+      <a href="tel:+994554343396">+994 55 434 33 96</a>
+      <a href="https://linkedin.com/in/shahriyar-eminzada-225a10250" target="_blank" rel="noopener">linkedin.com/in/shahriyar-eminzada</a>
+      <span>Edinburgh, UK</span>
+    </div>
+  </div>
+  <div class="foot-note">END OF LINE — SHEET 1/1 — REV 2026</div>
+</footer>
+
+<script>
+// Activate rail nodes + fill flow meters + rotate gauge needles on scroll into view
+const units = document.querySelectorAll('[data-unit]');
+const meters = document.querySelectorAll('.meter-fill');
+const gaugesInSection = {};
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-active');
+      const meterFills = entry.target.querySelectorAll('.meter-fill');
+      meterFills.forEach(m=>{ m.style.width = m.dataset.pct + '%'; });
+      const needles = entry.target.querySelectorAll('.gauge-needle');
+      needles.forEach(n=>{ n.style.transform = 'rotate(' + n.dataset.rotate + 'deg)'; });
+    } else {
+      entry.target.classList.remove('is-active');
+    }
+  });
+},{ rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+
+units.forEach(u=>io.observe(u));
+</script>
+
+</body>
+</html>
